@@ -1,0 +1,32 @@
+class Particle {
+
+  PVector position;
+  PVector vel;
+  color col;
+
+  float z;
+  float angle;
+
+  Particle() {
+    position = new PVector(random(width), random(height));
+    float rgb = map(position.x, 0, width, 0, 130);
+    col = color(100, rgb, 100);
+  }
+
+  void update() {
+    z += 0.001;
+    angle = noise(position.x * 0.006, position.y * 0.004, z) * TWO_PI ;
+    position.x += 2 * cos(angle);
+    position.y += 2 * sin(angle);
+    vel = new PVector( 2 * cos(angle),2 * sin(angle));
+    position.add(vel);
+    stroke(col);
+   point(position.x,position.y);
+  }
+
+  void boundaryDetect() {
+    if (position.x <= 0)position.x = width - 1;
+    if (position.x >= width)position.x = 0;
+    if (position.y <= 0)position.y = height - 1;
+    if (position.y >= height)position.y = 0;
+  }
