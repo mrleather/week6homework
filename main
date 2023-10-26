@@ -1,0 +1,40 @@
+# week6homework
+int widt, heigh;
+int[][] p, v;
+import processing.pdf.*;
+boolean savePDF=false;
+ArrayList<Particle> particles;
+
+void setup() {
+  size(2000, 1000);
+  background(0);
+  frameRate(40);
+  particles = new ArrayList<Particle>();
+  for (int i = 0; i < 40000; i++) {
+    Particle p = new Particle();
+    particles.add(p);
+  }
+}
+
+void draw() {
+  if (savePDF == true) {
+    beginRecord(PDF, "line-####.pdf");
+  }
+  fill(0, 10);
+  rect(0, 0, width, height);
+ loadPixels();
+  for (Particle p : particles) {
+    p.update();
+    p.boundaryDetect();
+    //p.display();
+  }
+  updatePixels();
+   if (savePDF == true) {
+      endRecord();
+      savePDF = false;
+    }
+}
+
+void mousePressed() {                   
+  savePDF = true;   
+}
